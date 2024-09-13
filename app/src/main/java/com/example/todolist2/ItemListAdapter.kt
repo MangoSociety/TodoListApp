@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class ItemListAdapter:RecyclerView.Adapter<ItemListViewHolder>() {
+class ItemListAdapter(private val listener: OnItemClickListener):RecyclerView.Adapter<ItemListViewHolder>() {
 
     val itemList = mutableListOf<ItemModel>()
 
@@ -16,7 +16,7 @@ class ItemListAdapter:RecyclerView.Adapter<ItemListViewHolder>() {
         }
         // Добавление элемента в список и обновление RecyclerView
         itemList.add(itemModel)
-        notifyDataSetChanged()
+        notifyItemInserted(itemList.size - 1)
     }
 
 
@@ -34,6 +34,12 @@ class ItemListAdapter:RecyclerView.Adapter<ItemListViewHolder>() {
 
     override fun onBindViewHolder(holder: ItemListViewHolder, position: Int) {
         holder.bind(itemList[position])
+
+        val item = itemList[position]
+        holder.bind(item)
+        holder.itemView.setOnClickListener{
+            listener.onItemClick(item)
+        }
 
     }
 

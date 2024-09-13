@@ -12,20 +12,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.activity_main_container, MainFragment.newInstance( 1))
+//            .addToBackStack(null)
+            .commit()
 
-        // Инициализация RecyclerView и адаптера
-        val recyclerView: RecyclerView = findViewById(R.id.itemList)
-        itemListAdapter = ItemListAdapter()
-        recyclerView.adapter = itemListAdapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Добавляем тестовые элементы
-        addTestItems()
-    }
-
-    private fun addTestItems() {
-        itemListAdapter.addItem(ItemModel("Task 1", "Description for task 1"))
-        itemListAdapter.addItem(ItemModel("Task 2", "Description for task 2"))
-        // В дальнейшем можете вызывать этот метод для добавления новых элементов
     }
 }
