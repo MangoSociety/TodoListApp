@@ -8,7 +8,8 @@
     tools:context=".DescriptionFragment">
 
 
-    <TextView
+    <EditText
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -16,7 +17,7 @@
         android:id="@+id/addTitle"
         android:text="Title" />
 
-    <TextView
+    <EditText
         android:id="@+id/addDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

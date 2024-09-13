@@ -59,10 +59,10 @@ class MainFragment : Fragment(), OnItemClickListener {
         // Переход на второй фрагмент
         val descriptionFragment = DescriptionFragment.newInstance(item)
 
-        requireFragmentManager().beginTransaction()
-            .replace(R.id.activity_main_container, DescriptionFragment.newInstance(item))
-            .addToBackStack(null)
-            .commit()
+        fragmentManager?.beginTransaction()
+            ?.replace(R.id.activity_main_container, DescriptionFragment.newInstance(item))
+            ?.addToBackStack(null)
+            ?.commit()
     }
 
 
