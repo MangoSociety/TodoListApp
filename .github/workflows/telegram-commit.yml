@@ -1,0 +1,29 @@
+name: Telegram Commit Notification
+
+on: [push]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Get commit details
+      id: commit
+      run: |
+        echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.sha }})"
+        echo "::set-output name=author::$(git log --format=%an -n 1 ${{ github.sha }})"
+
+    - name: Send Telegram Message
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        message: |
+          Новый коммит в репозитории ${{ github.repository }}!
+          
+          Автор: ${{ steps.commit.outputs.author }}
+          Сообщение: ${{ steps.commit.outputs.message }}
+          
+          Ссылка на коммит: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
