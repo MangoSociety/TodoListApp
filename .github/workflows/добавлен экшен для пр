@@ -1,0 +1,46 @@
+name: Telegram Notification
+on:
+  push:
+  pull_request:
+    types: [opened, reopened, synchronize]
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Get commit details
+      id: commit
+      run: |
+        echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.sha }} | head -n 3)"
+        echo "::set-output name=author::$(git log --format=%an -n 1 ${{ github.sha }})"
+    - name: Send Telegram Message for Push
+      if: github.event_name == 'push'
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        message: |
+          🚀 Новый коммит в ветке *${{ github.ref_name }}*!
+          
+          Автор: ${{ steps.commit.outputs.author }}
+          Сообщение: 
+            ${{ steps.commit.outputs.message }}
+      
+            [Ссылка на коммит](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+    - name: Send Telegram Message for Pull Request
+      if: github.event_name == 'pull_request'
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        message: |
+          📥 ${{ github.event.action == 'opened' && 'Новый' || 'Обновлен' }} пулл-реквест!
+          
+          Название: *${{ github.event.pull_request.title }}*
+          Автор: ${{ github.event.pull_request.user.login }}
+          Из: `${{ github.event.pull_request.head.ref }}` → В: `${{ github.event.pull_request.base.ref }}`
+          
+          ${{ github.event.pull_request.body }}
+          
+          [Ссылка на PR]({{ github.event.pull_request.html_url }})
