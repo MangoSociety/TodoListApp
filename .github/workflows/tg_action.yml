@@ -24,10 +24,9 @@ jobs:
           🚀 Новый коммит в ветке *${{ github.ref_name }}*!
           
           Автор: ${{ steps.commit.outputs.author }}
-          Сообщение: 
-            ${{ steps.commit.outputs.message }}
-            
-            https://github.com/${{ github.repository }}/commit/${{ github.sha }}
+          Сообщение: ${{ steps.commit.outputs.message }}
+          Ссылка: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
+          
     - name: Send Telegram Message for Pull Request
       if: github.event_name == 'pull_request'
       uses: appleboy/telegram-action@master
@@ -40,4 +39,4 @@ jobs:
           Название: ${{ github.event.pull_request.title }}
           Автор: ${{ github.event.pull_request.user.login }}
           Из: ${{ github.head_ref }}` → В: `${{ github.base_ref }}
-          https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}
+          Ссылка: https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}
