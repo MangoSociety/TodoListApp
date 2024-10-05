@@ -1,5 +1,7 @@
 package com.example.todolist2
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +16,7 @@ import com.example.todolist2.databinding.FragmentDescriptionBinding
 class DescriptionFragment : Fragment() {
 
     private lateinit var binding: FragmentDescriptionBinding
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,16 +30,36 @@ class DescriptionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sharedPreferences = requireContext().getSharedPreferences("ToDoLiltPref", Context.MODE_PRIVATE)
+        val saveTitle = sharedPreferences.getString("itmName", "")
+        val saveDescription = sharedPreferences.getString("itemDescription", "")
+
+        binding.addTitle.setText(saveTitle)
+        binding.addDescription.setText(saveDescription)
+
+
         val itemName = arguments?.getString("itemName")
         val itemDescription = arguments?.getString("itemDescription")
 
+        if (itemName != null)
         binding.addTitle.setText(itemName)
+
+        if(itemDescription != null)
         binding.addDescription.setText(itemDescription)
 
         view.findViewById<Button>(R.id.add_description_button).setOnClickListener {
+            saveToSharedPreference()
             requireActivity().onBackPressed()
         }
     }
+
+    private fun saveToSharedPreference() {
+        val editor = sharedPreferences.edit()
+        editor.putString("itemName", binding.addTitle.text.toString())
+        editor.putString("itemDescription",binding.addDescription.text.toString())
+        editor.apply()
+    }
+
 
 
     companion object {

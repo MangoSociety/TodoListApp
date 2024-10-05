@@ -1,5 +1,6 @@
 package com.example.todolist2
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ class MainFragment : Fragment(), OnItemClickListener {
 
     private lateinit var itemListAdapter: ItemListAdapter
     private lateinit var recyclerView: RecyclerView
+
 
 
     override fun onCreateView(
