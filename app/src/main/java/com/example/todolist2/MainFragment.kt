@@ -1,5 +1,6 @@
 package com.example.todolist2
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -16,6 +17,8 @@ class MainFragment : Fragment(), OnItemClickListener {
 
     private lateinit var itemListAdapter: ItemListAdapter
     private lateinit var recyclerView: RecyclerView
+    private lateinit var sharedPreferences: SharedPreferences
+
 
 
 
@@ -42,6 +45,11 @@ class MainFragment : Fragment(), OnItemClickListener {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadItemsFromPreferences()
+    }
+
 
     private fun addItems() {
         val items = listOf(
@@ -55,7 +63,18 @@ class MainFragment : Fragment(), OnItemClickListener {
             }
 
     }
+    private fun loadItemsFromPreferences() {
+        sharedPreferences = requireContext().getSharedPreferences("ToDoLiltPref", Context.MODE_PRIVATE)
+        val itemName = sharedPreferences.getString("itemName", "")
+        val itemDescription = sharedPreferences.getString("itemDescription", "")
 
+        // Проверяем, что данные не пустые
+        if (!itemName.isNullOrEmpty() && !itemDescription.isNullOrEmpty()) {
+            val newItem = ItemModel(itemName, itemDescription)
+            // Добавляем новый элемент в список
+            itemListAdapter.addItem(newItem)
+        }
+    }
 
     override fun onItemClick(item: ItemModel) {
         // Переход на второй фрагмент
