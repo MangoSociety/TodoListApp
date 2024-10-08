@@ -11,6 +11,8 @@ import android.widget.Button
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 
 class MainFragment : Fragment(), OnItemClickListener {
@@ -36,12 +38,22 @@ class MainFragment : Fragment(), OnItemClickListener {
 
 //        val value = arguments?.getInt("value")
 
+        sharedPreferences = requireContext().getSharedPreferences("ToDoLiltPref", Context.MODE_PRIVATE)
         recyclerView = view.findViewById(R.id.itemList)
         itemListAdapter = ItemListAdapter(this)
         recyclerView.adapter = itemListAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        addItems()
+        if (sharedPreferences.getString("result", null) == null) {
+            val itemModelList = arrayListOf(ItemModel("name 1", "description 1"))
+            val jsonResult = Gson().toJson(itemModelList)
+            val editor = sharedPreferences.edit()
+            editor.putString("result", jsonResult)
+            editor.apply()
+        }
+
+
+//        addItems()
 
     }
 
@@ -63,17 +75,33 @@ class MainFragment : Fragment(), OnItemClickListener {
             }
 
     }
-    private fun loadItemsFromPreferences() {
-        sharedPreferences = requireContext().getSharedPreferences("ToDoLiltPref", Context.MODE_PRIVATE)
-        val itemName = sharedPreferences.getString("itemName", "")
-        val itemDescription = sharedPreferences.getString("itemDescription", "")
 
-        // Проверяем, что данные не пустые
-        if (!itemName.isNullOrEmpty() && !itemDescription.isNullOrEmpty()) {
-            val newItem = ItemModel(itemName, itemDescription)
-            // Добавляем новый элемент в список
-            itemListAdapter.addItem(newItem)
+    /**
+     * достать элементы itemName itemDesciption
+     * проверить на не null
+     * добавить в список (адаптер)
+     * */
+    private fun loadItemsFromPreferences() {
+        val json = sharedPreferences.getString("result", null)
+        if (json !=  null) {
+            val gson = Gson()
+            val type = object : TypeToken<ArrayList<ItemModel>>() {}.type
+            val itemModelList: ArrayList<ItemModel> = gson.fromJson(json, type)
+            val resultData = itemModelList
+                .filter { it.itemName.isNotEmpty() && it.itemDescription.isNotEmpty() }
+            itemListAdapter.replaceAll(resultData)
         }
+
+//
+//        val itemName = sharedPreferences.getString("itemName", "")
+//        val itemDescription = sharedPreferences.getString("itemDescription", "")
+//
+//        // Проверяем, что данные не пустые
+//        if (!itemName.isNullOrEmpty() && !itemDescription.isNullOrEmpty()) {
+//            val newItem = ItemModel(itemName, itemDescription)
+//            // Добавляем новый элемент в список
+//            itemListAdapter.addItem(newItem)
+//        }
     }
 
     override fun onItemClick(item: ItemModel) {
