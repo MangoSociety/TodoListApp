@@ -91,17 +91,6 @@ class MainFragment : Fragment(), OnItemClickListener {
                 .filter { it.itemName.isNotEmpty() && it.itemDescription.isNotEmpty() }
             itemListAdapter.replaceAll(resultData)
         }
-
-//
-//        val itemName = sharedPreferences.getString("itemName", "")
-//        val itemDescription = sharedPreferences.getString("itemDescription", "")
-//
-//        // Проверяем, что данные не пустые
-//        if (!itemName.isNullOrEmpty() && !itemDescription.isNullOrEmpty()) {
-//            val newItem = ItemModel(itemName, itemDescription)
-//            // Добавляем новый элемент в список
-//            itemListAdapter.addItem(newItem)
-//        }
     }
 
     override fun onItemClick(item: ItemModel) {

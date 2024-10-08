@@ -64,7 +64,7 @@ class DescriptionFragment : Fragment() {
      * обновленный список сохраняем в sharedPreferences
      * */
     private fun saveToSharedPreference() {
-//        val editor = sharedPreferences.edit()
+
 
         // достать элемент из EditText
         val name = binding.addTitle.text.toString()
@@ -95,8 +95,6 @@ class DescriptionFragment : Fragment() {
         editor.putString("result", jsonResult)
         editor.apply()
     }
-
-
 
     companion object {
         fun newInstance(item: ItemModel): DescriptionFragment {
