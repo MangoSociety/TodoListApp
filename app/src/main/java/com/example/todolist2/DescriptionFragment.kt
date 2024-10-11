@@ -6,12 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import com.example.todolist2.databinding.FragmentDescriptionBinding
 
-class DescriptionFragment : Fragment() {
+class DescriptionFragment() : Fragment() {
 
     private lateinit var binding: FragmentDescriptionBinding
 
