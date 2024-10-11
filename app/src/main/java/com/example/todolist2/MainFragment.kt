@@ -29,7 +29,9 @@ class MainFragment : Fragment(), OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val value = arguments?.getInt("value")
+        val item = ItemModel("New Item", "New Description")
+        val descriptionFragment = DescriptionFragment.newInstance(item)
+
 
         recyclerView = view.findViewById(R.id.itemList)
         itemListAdapter = ItemListAdapter(this)
@@ -38,6 +40,14 @@ class MainFragment : Fragment(), OnItemClickListener {
 
         addItems()
 
+        view.findViewById<Button>(R.id.create_new_button).setOnClickListener{
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.activity_main_container, descriptionFragment)
+                .addToBackStack(null)
+                .commit()
+
+        }
+
     }
 
 
@@ -45,7 +55,7 @@ class MainFragment : Fragment(), OnItemClickListener {
         val items = listOf(
             ItemModel("Task 1", "Description for task 1"),
 
-        )
+            )
         items
             .filter { it.itemName.isNotEmpty() && it.itemDescription.isNotEmpty() }
             .forEach {
@@ -60,7 +70,7 @@ class MainFragment : Fragment(), OnItemClickListener {
         val descriptionFragment = DescriptionFragment.newInstance(item)
 
         fragmentManager?.beginTransaction()
-            ?.replace(R.id.activity_main_container, DescriptionFragment.newInstance(item))
+            ?.replace(R.id.activity_main_container, descriptionFragment)
             ?.addToBackStack(null)
             ?.commit()
     }
