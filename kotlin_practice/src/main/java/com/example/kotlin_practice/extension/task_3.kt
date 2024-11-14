@@ -1,8 +1,12 @@
 package com.example.kotlin_practice.extension
 
-// TODO: Реализуйте свойство-расширение lastChar
+fun String.lastChar(str: String): Char {
+    val timeBox: MutableList<Char> = this.filter { it.isLetter() }.toMutableList()
+
+    return timeBox.last()
+}
 
 fun main() {
     val str = "Kotlin"
-//    println(str.lastChar) // Должно вывести: n
+    println(str.lastChar(str).toString()) // Должно вывести: n
 }

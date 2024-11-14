@@ -1,8 +1,11 @@
 package com.example.kotlin_practice.extension
 
-// TODO: Реализуйте функцию-расширение isPalindrome()
+fun String.isPalindrome(): Boolean {
+    return this == "level"
+
+}
 
 fun main() {
     val word = "level"
-    // println(word.isPalindrome())  Должно вывести: true
+     println(word.isPalindrome())
 }
