@@ -1,11 +1,10 @@
 package com.example.kotlin_practice.extension
 
 fun String.isPalindrome(): Boolean {
-    return this == "level"
-
+    return this == this.reversed()
 }
 
 fun main() {
-    val word = "level"
+    val word = "kekd"
      println(word.isPalindrome())
 }
