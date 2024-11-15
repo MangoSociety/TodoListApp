@@ -1,7 +1,7 @@
 package com.example.kotlin_practice.extension
 
-fun List<Int>.secondOrNull():Int?{
-    if (this.size > 2){
+fun List<Int>.secondOrNull(): Int? {
+    if (this.size > 2) {
         return this[1]
     } else {
         return null
