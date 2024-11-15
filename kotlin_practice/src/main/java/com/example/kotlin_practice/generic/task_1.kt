@@ -1,11 +1,15 @@
 package com.example.kotlin_practice.generic
 
-// TODO: Объявите обобщенный класс Box
+class Box<T>(private val value: T) {
+    fun getValue():T{
+        return value
+    }
+}
 
 fun main() {
-//    val intBox = Box(123)
-//    val stringBox = Box("Hello")
+    val intBox = Box(123)
+    val stringBox = Box("Hello")
 
-//    println(intBox.getValue())     // Ожидаемый вывод: 123
-//    println(stringBox.getValue())  // Ожидаемый вывод: Hello
+    println(intBox.getValue())     // Ожидаемый вывод: 123
+    println(stringBox.getValue())  // Ожидаемый вывод: Hello
 }
