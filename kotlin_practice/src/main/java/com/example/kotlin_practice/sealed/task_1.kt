@@ -5,5 +5,7 @@ package com.example.kotlin_practice.sealed
 sealed class Shape
 
 class Circle(val radius: Double) : Shape()
+class Rectangle(val bR: Double, val hR: Double):Shape()
+class Triangle( val bT: Double, val hT: Double): Shape()
 
 // TODO: Добавьте классы Rectangle и Triangle, наследующие от Shape
