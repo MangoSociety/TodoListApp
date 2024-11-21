@@ -37,6 +37,20 @@ class VersionControl<T> {
     }
 }
 
+/**
+val exam = VersionControl<String>()
+exam.saveVersion("Ver1") -> value = "Ver1", version = 1
+exam.saveVersion("Ver1_updated") -> value = "Ver1_updated", version = 2
+exam.saveVersion("Ver2") -> value = "Ver2", version = 3
+exam.getAllVersions() -> (value = "Ver1", version = 1), (value = "Ver1_updated", version = 2), (value = "Ver2", version = 3)
+exam.popVersion()
+exam.saveVersion("Ver1_updated_updated") -> value = "Ver1_updated", version = 2
+exam.getAllVersions() -> (value = "Ver1", version = 1), (value = "Ver1_updated", version = 2), (value = "Ver1_updated_updated", version = 3)
+exam.saveMergeVersions("Ver3", "Ver4")
+exam.getAllVersions() -> (value = "Ver1", version = 1), (value = "Ver1_updated", version = 2), (value = "Ver1_updated_updated", version = 3), (value = "Ver3Ver4", version = 4)
+слияние 2 версий можно сделать по конкатенации toString()
+ * */
+
 fun main() {
     val exam = VersionControl<String>()
 
