@@ -4,7 +4,7 @@ import java.math.BigDecimal
 import java.time.Instant
 import kotlin.system.measureTimeMillis
 
-data class Transaction (
+data class Transaction(
     val id: String,
     val amount: BigDecimal,
     val type: String,
@@ -25,8 +25,8 @@ class TransactionProcessor {
                 .groupBy { it.type }
             val sumOfAmount = groupedTransactions
                 .mapValues { (_, amountList) ->
-                amountList.sumOf { it.amount }
-            }
+                    amountList.sumOf { it.amount }
+                }
             println("Сгруппированные и просуммированные транзакци: $sumOfAmount")
         }
         println("Время обработки List: $listTime")
@@ -45,9 +45,10 @@ class TransactionProcessor {
 
 class TransactionIterator(
     val transactions: List<Transaction>,
-    val filterType: String):
+    val filterType: String
+) :
     Iterator<Transaction> {
-        var currentIndex = 0
+    var currentIndex = 0
 
     override fun hasNext(): Boolean {
         while (currentIndex < transactions.size) {
@@ -63,22 +64,21 @@ class TransactionIterator(
     override fun next(): Transaction {
         if (!hasNext()) throw NoSuchElementException("Болше нет элементов типа $filterType")
         return transactions[currentIndex++]
-
     }
-    }
+}
 
-    fun main() {
-        val ex = listOf(
-            Transaction("1", BigDecimal("12.1"), "trans", timestamp = Instant.now()),
-            Transaction("2", BigDecimal("12424.1"), "change", timestamp = Instant.now()),
-            Transaction("3", BigDecimal("56731.1"), "trans", timestamp = Instant.now()),
-            Transaction("4", BigDecimal("12.1"), "change", timestamp = Instant.now())
-        )
-        val startOperation = TransactionProcessor().process(ex)
+fun main() {
+    val ex = listOf(
+        Transaction("1", BigDecimal("12.1"), "trans", timestamp = Instant.now()),
+        Transaction("2", BigDecimal("12424.1"), "change", timestamp = Instant.now()),
+        Transaction("3", BigDecimal("56731.1"), "trans", timestamp = Instant.now()),
+        Transaction("4", BigDecimal("12.1"), "change", timestamp = Instant.now())
+    )
+    val startOperation = TransactionProcessor().process(ex)
 
-        val iterator = TransactionIterator(ex,"trans")
-        while (iterator.hasNext()){
-            println(iterator.next())
-        }
+    val iterator = TransactionIterator(ex, "trans")
+    while (iterator.hasNext()) {
+        println(iterator.next())
     }
+}
 

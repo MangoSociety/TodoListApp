@@ -4,5 +4,6 @@ package com.example.kotlin_practice.exam.easy
 // и умножить каждое на 2
 fun processNumbers(numbers: List<Int>): List<Int> {
     // Использовать filter и map
+    val
     return listOf()
 }
