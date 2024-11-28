@@ -15,8 +15,6 @@ class User(
 
 fun main(){
     val getFullInfo = User(firstName = "Lilu", lastName =  "Nafikova")
-
-
-    println("Full info: ${getFullInfo.fullInfo}")
+    println("Full info: unavalible")
 
 }
