@@ -18,10 +18,31 @@ class EmployeeProcessor {
         // Ваше решение
        val employeeCountry = employee?.company?.address?.country
         return employeeCountry?: "Unknown"
+
+    }
+    fun getEmployeeCountryUsingRun(employee: Employee?): String {
+        return employee?.run {
+            company?.run {
+                address?.run {
+                    country
+                }
+            }
+        } ?: "Unknown"
+    }
+    fun getEmployeeCountryUsingLet(employee: Employee?): String{
+        var country = "Unknown"
+        employee?.let {emp ->
+            emp.company?.let { comp ->
+                comp.address?.let { addr ->
+                    country = addr.country?: "Unknown"
+                }
+            }
+        }
+        return country
     }
 }
 
-fun main(){
+fun main() {
     val address =
 //        listOf(
 //        Address("Main st", "New-York", "USA"),
@@ -43,4 +64,8 @@ fun main(){
 
     val result = EmployeeProcessor().getEmployeeCountry(employee)
     println(result)
+    val result2 = EmployeeProcessor().getEmployeeCountryUsingRun(employee)
+    println(result2)
+    val result3 = EmployeeProcessor().getEmployeeCountryUsingLet(employee)
+    println(result3)
 }
