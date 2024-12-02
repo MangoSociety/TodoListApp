@@ -1,5 +1,7 @@
 package com.example.kotlin_practice.exam.easy.null_safety
 
+import com.example.kotlin_practice.R
+
 // Задача 2: Реализовать коллекцию с null-safe операциями
 class SafeList<T> {
     private val items = mutableListOf<T?>()
@@ -23,12 +25,24 @@ class SafeList<T> {
 
     // 3. mapNotNull: преобразует элементы, пропуская null
     fun <R : Any> mapNotNull(transform: (T?) -> R?): SafeList<R> {
-        val mappedItem = items.mapNotNull(transform)
         val resultSafeList = SafeList<R>()
-        mappedItem.forEach { resultSafeList.addIfNotNull(it) }
+        items.forEach { item ->
+            item?.let {
+                val transformed = transform(it)
+                transformed?.let { resultSafeList.addIfNotNull(transformed) }
+            }
+        }
         return resultSafeList
+    }
+    // 4. firstOrNull: возвращает первый не-null элемент или null
 
-
+    fun firstOrNull(): T?{
+        for (item in items){
+            if (item != null){
+                return item
+            }
+        }
+        return null
     }
 
     override fun toString(): String {
@@ -36,7 +50,7 @@ class SafeList<T> {
     }
 
 
-    // 4. firstOrNull: возвращает первый не-null элемент или null
+
 
     // Методы должны поддерживать chain-операции
 }
@@ -45,7 +59,7 @@ fun main() {
     val safeList = SafeList<String>()
 
     safeList
-        .addIfNotNull("robert")
+        .addIfNotNull(null)
         .addIfNotNull("foruh")
         .addIfNotNull("pipin")
         .addIfNotNull(null)
@@ -57,4 +71,8 @@ fun main() {
     println(filtredList)
 
     val filterdListByMap = safeList.mapNotNull { it?.length }
+    println(filterdListByMap)
+
+    val firstItem = safeList.firstOrNull()
+    println(firstItem)
 }
