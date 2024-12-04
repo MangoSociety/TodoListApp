@@ -15,43 +15,43 @@ class SafeList<T> {
         return this
     }
 
+    fun toList(): List<T?> {
+        return items.toList()
+    }
+
     // 2. filterNotNull: возвращает новый SafeList без null элементов
-    fun filterNotNull(): SafeList<T> {
-        val notNullItem = items.filterNotNull()
-        val notNullSafeList = SafeList<T>()
-        notNullItem.forEach { notNullSafeList.addIfNotNull(it) }
-        return notNullSafeList
-    }
-
-    // 3. mapNotNull: преобразует элементы, пропуская null
-    fun <R : Any> mapNotNull(transform: (T?) -> R?): SafeList<R> {
-        val resultSafeList = SafeList<R>()
-        items.forEach { item ->
-            item?.let {
-                val transformed = transform(it)
-                transformed?.let { resultSafeList.addIfNotNull(transformed) }
-            }
-        }
-        return resultSafeList
-    }
-    // 4. firstOrNull: возвращает первый не-null элемент или null
-
-    fun firstOrNull(): T?{
-        for (item in items){
-            if (item != null){
-                return item
-            }
-        }
-        return null
-    }
+//    fun filterNotNull(): SafeList<T> {
+//        val notNullItem = items.filterNotNull()
+//        val notNullSafeList = SafeList<T>()
+//        notNullItem.forEach { notNullSafeList.addIfNotNull(it) }
+//        return notNullSafeList
+//    }
+//
+//    // 3. mapNotNull: преобразует элементы, пропуская null
+//    fun <R : Any> mapNotNull(transform: (T?) -> R?): SafeList<R> {
+//        val resultSafeList = SafeList<R>()
+//        items.forEach { item ->
+//            item?.let {
+//                val transformed = transform(it)
+//                transformed?.let { resultSafeList.addIfNotNull(transformed) }
+//            }
+//        }
+//        return resultSafeList
+//    }
+//    // 4. firstOrNull: возвращает первый не-null элемент или null
+//
+//    fun firstOrNull(): T? {
+//        for (item in items) {
+//            if (item != null) {
+//                return item
+//            }
+//        }
+//        return null
+//    }
 
     override fun toString(): String {
         return items.toString()
     }
-
-
-
-
     // Методы должны поддерживать chain-операции
 }
 
@@ -59,7 +59,7 @@ fun main() {
     val safeList = SafeList<String>()
 
     safeList
-        .addIfNotNull(null)
+        .addIfNotNull("hebrfnmmf")
         .addIfNotNull("foruh")
         .addIfNotNull("pipin")
         .addIfNotNull(null)
@@ -67,11 +67,10 @@ fun main() {
 
     println(safeList.toString())
 
-    val filtredList = safeList.filterNotNull()
-    println(filtredList)
-
-    val filterdListByMap = safeList.mapNotNull { it?.length }
-    println(filterdListByMap)
+    val lenghtList = safeList.filterNotNullAndMap { it.length }
+    val uppercaseList = safeList.filterNotNullAndMap { it.uppercase() }
+    println(lenghtList)
+    println(uppercaseList)
 
     val firstItem = safeList.firstOrNull()
     println(firstItem)
